@@ -6,9 +6,11 @@ namespace Slide15
 	{
 		public static int[] map;
 		public static int x,y;
+		public static bool isExit;
 		public static void Main()
 		{
-			bool isExit=false;
+			isExit=false;
+			Console.CursorVisible = false;
 			init();
 			while(!isExit)
 			{
@@ -31,30 +33,44 @@ namespace Slide15
 						isExit=true;
 						break;
 					case ConsoleKey.Enter:
-						isExit=Check();
 						break;
 				}
+				Check();
 			}
+			Console.CursorVisible=true;
 		}
 		public static void init()
 		{
 			x=3;
 			y=3;
+			Console.Clear();
+			int seed = Environment.TickCount;
 			map=new int[16]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0};
+			for(int i=0;i<1112;i++)
+			{
+				Random r = new Random(seed ++);
+				int h = r.Next(5);
+				swap(h);
+			}
 			Draw();
 		}
-		public static bool Check()
+		public static void Check()
 		{
 			for(int i=0;i<15;i++)
 			{
 				if(map[i]!=i+1)
-					return false;
+					return;
 			}
-			return true;
+			Console.Clear();
+			Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
+			Console.Write("Great");
+			Console.ReadKey();
+			isExit=true;
+			return;
 		}
 		public static void Draw()
 		{
-			Console.Clear();
+			Console.SetCursorPosition(0,0);
 			for(int i=0;i<4;i++)
 			{
 				for(int j=0;j<4;j++)
@@ -75,7 +91,9 @@ namespace Slide15
 							break;
 						case 4:
 							Console.BackgroundColor=ConsoleColor.Gray;
+							Console.ForegroundColor=ConsoleColor.Black;
 							Console.Write("‚S");
+							Console.ForegroundColor=ConsoleColor.White;
 							break;
 						case 5:
 							Console.BackgroundColor=ConsoleColor.DarkYellow;
@@ -95,7 +113,9 @@ namespace Slide15
 							break;
 						case 9:
 							Console.BackgroundColor=ConsoleColor.Gray;
+							Console.ForegroundColor=ConsoleColor.Black;
 							Console.Write("‚X");
+							Console.ForegroundColor=ConsoleColor.White;
 							break;
 						case 10:
 							Console.BackgroundColor=ConsoleColor.Magenta;
@@ -131,6 +151,7 @@ namespace Slide15
 				Console.Write("\n");
 			}
 			Console.ResetColor();
+			Console.Write("‹ó”’‚ÌƒXƒy[ƒX‚ð–îˆóƒL[‚ÅˆÚ“®‚µ‚Ä\n‚P ‚Q ‚R ‚S\n‚T ‚U ‚V ‚W\n‚X 10 11 12\n13 14 15\n‚Ì‡‚É‚µ‚Ä‚­‚¾‚³‚¢B");
 		}
 		public static void swap(int houkou)
 		{
