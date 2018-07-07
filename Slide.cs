@@ -67,7 +67,10 @@ namespace Slide15
 						break;
 					case ConsoleKey.Enter:
 						if(selected==6)
+						{
+							Console.CursorVisible=true;
 							Environment.Exit(0);
+						}
 						init(selected,selected);
 						while(!isExit)
 						{
@@ -149,8 +152,8 @@ namespace Slide15
 				}
 			}
 			Console.Clear();
-			Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
-			Console.Write("Great");
+			Console.SetCursorPosition(Console.WindowWidth/2-4,Console.WindowHeight/2);
+			Console.Write("Clear!!");
 			Console.ReadKey();
 			isExit=true;
 			return;
