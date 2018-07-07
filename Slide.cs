@@ -7,43 +7,101 @@ namespace Slide15
 		public static int[] map;
 		public static int x,y,w,h;
 		public static bool isExit;
-		public static void Main()
+		public static void Menu()
 		{
+			int selected=3;
 			isExit=false;
-			Console.CursorVisible = false;
-			init(5,5);
-			while(!isExit)
+			while(true)
 			{
-				ConsoleKeyInfo kb = Console.ReadKey(true);
-				switch(kb.Key)
+				Console.SetCursorPosition(0,0);
+				switch(selected)
 				{
-					case ConsoleKey.UpArrow:
-						swap(3);
+					case 3:
+						Console.ForegroundColor=ConsoleColor.Black;
+						Console.BackgroundColor=ConsoleColor.White;
+						Console.Write("Level 1\n");
+						Console.ResetColor();
+						Console.Write("Level 2\n");
+						Console.Write("Level 3\n");
+						Console.Write("Quit\n");
 						break;
+					case 4:
+						Console.Write("Level 1\n");
+						Console.ForegroundColor=ConsoleColor.Black;
+						Console.BackgroundColor=ConsoleColor.White;
+						Console.Write("Level 2\n");
+						Console.ResetColor();
+						Console.Write("Level 3\n");
+						Console.Write("Quit\n");
+						break;
+					case 5:
+						Console.Write("Level 1\n");
+						Console.Write("Level 2\n");
+						Console.ForegroundColor=ConsoleColor.Black;
+						Console.BackgroundColor=ConsoleColor.White;
+						Console.Write("Level 3\n");
+						Console.ResetColor();
+						Console.Write("Quit\n");
+						break;
+					case 6:
+						Console.Write("Level 1\n");
+						Console.Write("Level 2\n");
+						Console.Write("Level 3\n");
+						Console.ForegroundColor=ConsoleColor.Black;
+						Console.BackgroundColor=ConsoleColor.White;
+						Console.Write("Quit\n");
+						Console.ResetColor();
+						break;
+
+				}
+				ConsoleKeyInfo c = Console.ReadKey(true);
+				switch(c.Key)
+				{
 					case ConsoleKey.DownArrow:
-						swap(4);
+						if(selected!=6)
+						selected++;
 						break;
-					case ConsoleKey.LeftArrow:
-						swap(1);
-						break;
-					case ConsoleKey.RightArrow:
-						swap(2);
-						break;
-					case ConsoleKey.Escape:
-						isExit=true;
+					case ConsoleKey.UpArrow:
+						if(selected!=3)
+						selected--;
 						break;
 					case ConsoleKey.Enter:
-						for(int i=0;i<(w*h-1);i++)
+						if(selected==6)
+							Environment.Exit(0);
+						init(selected,selected);
+						while(!isExit)
 						{
-							map[i]=i+1;
+							ConsoleKeyInfo kb = Console.ReadKey(true);
+							switch(kb.Key)
+							{
+								case ConsoleKey.UpArrow:
+									swap(3);
+									break;
+								case ConsoleKey.DownArrow:
+									swap(4);
+									break;
+								case ConsoleKey.LeftArrow:
+									swap(1);
+									break;
+								case ConsoleKey.RightArrow:
+									swap(2);
+									break;
+								case ConsoleKey.Escape:
+									isExit=true;
+									break;
+							}
+							Check();
 						}
-						map[w*h-1]=0;
-						Draw();
-						Console.ReadKey();
+						Console.Clear();
 						break;
 				}
-				Check();
 			}
+		}
+		public static void Main()
+		{
+			Console.Clear();
+			Console.CursorVisible = false;
+			Menu();
 			Console.CursorVisible=true;
 		}
 		public static void init(int sw,int sh)
@@ -60,20 +118,35 @@ namespace Slide15
 				map[i]=i+1;
 			}
 			map[w*h-1]=0;
-			for(int i=0;i<1112;i++)
-			{
-				Random r = new Random(seed ++);
-				int a = r.Next(5);
-				swap(a);
-			}
+			Console.SetCursorPosition(0,h+2);
+			Console.Write("‹ó”’‚ð–îˆóƒL[‚Å“®‚©‚µ‚ÄA\n");
+			Console.SetCursorPosition(0,h+3);
 			Draw();
+			Console.SetCursorPosition(0,h*2+3);
+			Console.Write("‚ÌŒ`‚É‚µ‚Ä‚­‚¾‚³‚¢B");
+			isExit=true;
+			while(isExit)
+			{
+				for(int i=0;i<1000;i++)
+				{
+					Random r = new Random(seed ++);
+					int a = r.Next(5);
+					swap(a);
+				}
+			Console.SetCursorPosition(0,0);
+				Draw();
+				Check();
+			}
 		}
 		public static void Check()
 		{
 			for(int i=0;i<(w*h-1);i++)
 			{
 				if(map[i]!=i+1)
+				{
+					isExit=false;
 					return;
+				}
 			}
 			Console.Clear();
 			Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
@@ -84,7 +157,6 @@ namespace Slide15
 		}
 		public static void Draw()
 		{
-			Console.SetCursorPosition(0,0);
 			for(int i=0;i<h;i++)
 			{
 				for(int j=0;j<w;j++)
@@ -205,7 +277,6 @@ namespace Slide15
 				Console.Write("\n");
 			}
 			Console.ResetColor();
-			Console.Write("‹ó”’‚ÌƒXƒy[ƒX‚ð–îˆóƒL[‚ÅˆÚ“®‚µ‚Ä\n‚P ‚Q ‚R ‚S\n‚T ‚U ‚V ‚W\n‚X 10 11 12\n13 14 15\n‚Ì‡‚É‚µ‚Ä‚­‚¾‚³‚¢B");
 		}
 		public static void swap(int houkou)
 		{
@@ -217,6 +288,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x+1];
 						map[w*y+x+1]=0;
 						x++;
+			Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
@@ -226,6 +298,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x-1];
 						map[w*y+x-1]=0;
 						x--;
+			Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
@@ -235,6 +308,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x+w];
 						map[w*y+x+w]=0;
 						y++;
+			Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
@@ -244,6 +318,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x-w];
 						map[w*y+x-w]=0;
 						y--;
+			Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
