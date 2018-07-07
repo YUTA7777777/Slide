@@ -5,13 +5,13 @@ namespace Slide15
 	public class Slide15
 	{
 		public static int[] map;
-		public static int x,y;
+		public static int x,y,w,h;
 		public static bool isExit;
 		public static void Main()
 		{
 			isExit=false;
 			Console.CursorVisible = false;
-			init();
+			init(5,5);
 			while(!isExit)
 			{
 				ConsoleKeyInfo kb = Console.ReadKey(true);
@@ -33,30 +33,44 @@ namespace Slide15
 						isExit=true;
 						break;
 					case ConsoleKey.Enter:
+						for(int i=0;i<(w*h-1);i++)
+						{
+							map[i]=i+1;
+						}
+						map[w*h-1]=0;
+						Draw();
+						Console.ReadKey();
 						break;
 				}
 				Check();
 			}
 			Console.CursorVisible=true;
 		}
-		public static void init()
+		public static void init(int sw,int sh)
 		{
-			x=3;
-			y=3;
+			x=sw-1;
+			y=sh-1;
+			w=sw;
+			h=sh;
 			Console.Clear();
 			int seed = Environment.TickCount;
-			map=new int[16]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0};
+			map=new int[w*h];
+			for(int i=0;i<(w*h-1);i++)
+			{
+				map[i]=i+1;
+			}
+			map[w*h-1]=0;
 			for(int i=0;i<1112;i++)
 			{
 				Random r = new Random(seed ++);
-				int h = r.Next(5);
-				swap(h);
+				int a = r.Next(5);
+				swap(a);
 			}
 			Draw();
 		}
 		public static void Check()
 		{
-			for(int i=0;i<15;i++)
+			for(int i=0;i<(w*h-1);i++)
 			{
 				if(map[i]!=i+1)
 					return;
@@ -71,11 +85,11 @@ namespace Slide15
 		public static void Draw()
 		{
 			Console.SetCursorPosition(0,0);
-			for(int i=0;i<4;i++)
+			for(int i=0;i<h;i++)
 			{
-				for(int j=0;j<4;j++)
+				for(int j=0;j<w;j++)
 				{
-					switch(map[4*i+j])
+					switch(map[w*i+j])
 					{
 						case 1:
 							Console.BackgroundColor=ConsoleColor.Cyan;
@@ -93,7 +107,6 @@ namespace Slide15
 							Console.BackgroundColor=ConsoleColor.Gray;
 							Console.ForegroundColor=ConsoleColor.Black;
 							Console.Write("ÇS");
-							Console.ForegroundColor=ConsoleColor.White;
 							break;
 						case 5:
 							Console.BackgroundColor=ConsoleColor.DarkYellow;
@@ -115,7 +128,6 @@ namespace Slide15
 							Console.BackgroundColor=ConsoleColor.Gray;
 							Console.ForegroundColor=ConsoleColor.Black;
 							Console.Write("ÇX");
-							Console.ForegroundColor=ConsoleColor.White;
 							break;
 						case 10:
 							Console.BackgroundColor=ConsoleColor.Magenta;
@@ -141,12 +153,54 @@ namespace Slide15
 							Console.BackgroundColor=ConsoleColor.DarkGray;
 							Console.Write("15");
 							break;
+						case 16:
+							Console.BackgroundColor=ConsoleColor.Blue;
+							Console.Write("16");
+							break;
+						case 17:
+							Console.BackgroundColor=ConsoleColor.DarkRed;
+							Console.Write("17");
+							break;
+						case 18:
+							Console.BackgroundColor=ConsoleColor.DarkYellow;
+							Console.Write("18");
+							break;
+						case 19:
+							Console.BackgroundColor=ConsoleColor.DarkMagenta;
+							Console.Write("19");
+							break;
+						case 20:
+							Console.BackgroundColor=ConsoleColor.Red;
+							Console.Write("20");
+							break;
+						case 21:
+							Console.BackgroundColor=ConsoleColor.Yellow;
+							Console.ForegroundColor=ConsoleColor.Black;
+							Console.Write("21");
+							break;
+						case 22:
+							Console.BackgroundColor=ConsoleColor.DarkGray;
+							Console.Write("22");
+							break;
+						case 23:
+							Console.BackgroundColor=ConsoleColor.DarkMagenta;
+							Console.Write("23");
+							break;
+						case 24:
+							Console.BackgroundColor=ConsoleColor.DarkBlue;
+							Console.Write("24");
+							break;
+						case 25:
+							Console.BackgroundColor=ConsoleColor.DarkRed;
+							Console.Write("25");
+							break;
 						case 0:
 							Console.BackgroundColor=ConsoleColor.Black;
 							Console.Write("Å@");
 							Console.ResetColor();
 							break;
 					}
+					Console.ForegroundColor=ConsoleColor.White;
 				}
 				Console.Write("\n");
 			}
@@ -158,10 +212,10 @@ namespace Slide15
 			switch(houkou)
 			{
 				case 1://<-
-					if(x<3)
+					if(x<(w-1))
 					{
-						map[4*y+x]=map[4*y+x+1];
-						map[4*y+x+1]=0;
+						map[w*y+x]=map[w*y+x+1];
+						map[w*y+x+1]=0;
 						x++;
 						Draw();
 					}
@@ -169,17 +223,17 @@ namespace Slide15
 				case 2://->
 					if(x>0)
 					{
-						map[4*y+x]=map[4*y+x-1];
-						map[4*y+x-1]=0;
+						map[w*y+x]=map[w*y+x-1];
+						map[w*y+x-1]=0;
 						x--;
 						Draw();
 					}
 					break;
 				case 3://Å™
-					if(y<3)
+					if(y<(h-1))
 					{
-						map[4*y+x]=map[4*y+x+4];
-						map[4*y+x+4]=0;
+						map[w*y+x]=map[w*y+x+w];
+						map[w*y+x+w]=0;
 						y++;
 						Draw();
 					}
@@ -187,8 +241,8 @@ namespace Slide15
 				case 4://Å´
 					if(y>0)
 					{
-						map[4*y+x]=map[4*y+x-4];
-						map[4*y+x-4]=0;
+						map[w*y+x]=map[w*y+x-w];
+						map[w*y+x-w]=0;
 						y--;
 						Draw();
 					}
