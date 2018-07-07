@@ -71,6 +71,7 @@ namespace Slide15
 						init(selected,selected);
 						while(!isExit)
 						{
+							Check();
 							ConsoleKeyInfo kb = Console.ReadKey(true);
 							switch(kb.Key)
 							{
@@ -90,7 +91,6 @@ namespace Slide15
 									isExit=true;
 									break;
 							}
-							Check();
 						}
 						Console.Clear();
 						break;
@@ -123,7 +123,7 @@ namespace Slide15
 			Console.SetCursorPosition(0,h+3);
 			Draw();
 			Console.SetCursorPosition(0,h*2+3);
-			Console.Write("の形にしてください。");
+			Console.Write("の形にしてください。\n\nMenuに戻る時はESCを押してください。");
 			isExit=true;
 			while(isExit)
 			{
