@@ -102,6 +102,8 @@ namespace Slide15
 		}
 		public static void Main()
 		{
+			string title = Console.Title;
+			Console.Title = "";
 			Console.Clear();
 			Console.CursorVisible = false;
 			Menu();
