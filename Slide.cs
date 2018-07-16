@@ -71,10 +71,11 @@ namespace Slide15
 							Console.CursorVisible=true;
 							Environment.Exit(0);
 						}
+						System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 						init(selected,selected);
+						stopwatch.Start();
 						while(!isExit)
 						{
-							Check();
 							ConsoleKeyInfo kb = Console.ReadKey(true);
 							switch(kb.Key)
 							{
@@ -94,8 +95,13 @@ namespace Slide15
 									isExit=true;
 									break;
 							}
+							Check();
 						}
+						stopwatch.Stop();
 						Console.Clear();
+						Console.SetCursorPosition(Console.WindowWidth/2 -10,Console.WindowHeight/2);
+						Console.Write("Clear!! time:{0}s",stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds);
+						stopwatch.Reset();
 						break;
 				}
 			}
@@ -138,7 +144,7 @@ namespace Slide15
 					int a = r.Next(5);
 					swap(a);
 				}
-			Console.SetCursorPosition(0,0);
+				Console.SetCursorPosition(0,0);
 				Draw();
 				Check();
 			}
@@ -153,10 +159,6 @@ namespace Slide15
 					return;
 				}
 			}
-			Console.Clear();
-			Console.SetCursorPosition(Console.WindowWidth/2-4,Console.WindowHeight/2);
-			Console.Write("Clear!!");
-			Console.ReadKey();
 			isExit=true;
 			return;
 		}
@@ -293,7 +295,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x+1];
 						map[w*y+x+1]=0;
 						x++;
-			Console.SetCursorPosition(0,0);
+						Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
@@ -303,7 +305,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x-1];
 						map[w*y+x-1]=0;
 						x--;
-			Console.SetCursorPosition(0,0);
+						Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
@@ -313,7 +315,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x+w];
 						map[w*y+x+w]=0;
 						y++;
-			Console.SetCursorPosition(0,0);
+						Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
@@ -323,7 +325,7 @@ namespace Slide15
 						map[w*y+x]=map[w*y+x-w];
 						map[w*y+x-w]=0;
 						y--;
-			Console.SetCursorPosition(0,0);
+						Console.SetCursorPosition(0,0);
 						Draw();
 					}
 					break;
