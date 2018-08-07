@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Slide15
 {
@@ -7,10 +8,19 @@ namespace Slide15
 		public static int[] map;
 		public static int x,y,w,h;
 		public static bool isExit;
+		public static bool isClear;
+		public static string PlayerName="";
 		public static void Menu()
 		{
+			int[][] ranking = new int[3][]
+			{
+				new int[0],
+				new int[0],
+				new int[0],
+			};
 			int selected=3;
 			isExit=false;
+			isClear=false;
 			while(true)
 			{
 				Console.SetCursorPosition(0,0);
@@ -81,26 +91,50 @@ namespace Slide15
 							{
 								case ConsoleKey.UpArrow:
 									swap(3);
+									Check();
 									break;
 								case ConsoleKey.DownArrow:
 									swap(4);
+									Check();
 									break;
 								case ConsoleKey.LeftArrow:
 									swap(1);
+									Check();
 									break;
 								case ConsoleKey.RightArrow:
 									swap(2);
+									Check();
 									break;
 								case ConsoleKey.Escape:
 									isExit=true;
 									break;
 							}
-							Check();
 						}
 						stopwatch.Stop();
 						Console.Clear();
-						Console.SetCursorPosition(Console.WindowWidth/2 -10,Console.WindowHeight/2);
-						Console.Write("Clear!! time:{0}s",stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds);
+						if(isClear)
+						{
+							Console.SetCursorPosition(Console.WindowWidth/2 -10,Console.WindowHeight/2);
+							Console.Write("Clear!!");
+							Console.ReadKey();
+							Console.Clear();
+							{
+								int tmplength = ranking[selected-3].Length;
+								Array.Resize(ref ranking[selected-3],ranking[selected-3].Length+1);
+								ranking[selected-3][tmplength]=stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds;
+								Array.Sort(ranking[selected-3]);
+								Console.SetCursorPosition(Console.WindowWidth/2-5,Console.WindowHeight/2-7);
+								Console.Write("現在のタイム: {0}秒",stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds);
+							}
+						}
+						for(int i=0;i<ranking[selected-3].Length-1 || i<5;i++)
+						{
+							if(0<=i && i<= ranking[selected-3].Length-1)
+							{
+								Console.SetCursorPosition(Console.WindowWidth/2-5,Console.WindowHeight/2-5+2*i);
+								Console.Write("{0}位: {1}秒 ({2})",i+1,ranking[selected-3][i],PlayerName);
+							}
+						}
 						stopwatch.Reset();
 						break;
 				}
@@ -110,6 +144,9 @@ namespace Slide15
 		{
 			string title = Console.Title;
 			Console.Title = "";
+			Console.Clear();
+			Console.WriteLine("ランキングに使うので、名前を入力してください。");
+			PlayerName=Console.ReadLine();
 			Console.Clear();
 			Console.CursorVisible = false;
 			Menu();
@@ -156,10 +193,12 @@ namespace Slide15
 				if(map[i]!=i+1)
 				{
 					isExit=false;
+					isClear=false;
 					return;
 				}
 			}
 			isExit=true;
+			isClear=true;
 			return;
 		}
 		public static void Draw()
