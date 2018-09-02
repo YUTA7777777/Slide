@@ -1,8 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace Slide15
 {
+	public class Data : System.IComparable
+	{
+		public int data{get;set;}
+		public string name{get;set;}
+		public int CompareTo(object obj)
+		{
+			return this.data.CompareTo(((Data)obj).data);
+			//または、次のようにもできる
+			//return this.Price - ((Product)other).Price;
+		}
+	}
 	public class Slide15
 	{
 		public static int[] map;
@@ -10,14 +24,9 @@ namespace Slide15
 		public static bool isExit;
 		public static bool isClear;
 		public static string PlayerName="";
+		public static Data[][] Data;
 		public static void Menu()
 		{
-			int[][] ranking = new int[3][]
-			{
-				new int[0],
-				new int[0],
-				new int[0],
-			};
 			int selected=3;
 			isExit=false;
 			isClear=false;
@@ -69,11 +78,11 @@ namespace Slide15
 				{
 					case ConsoleKey.DownArrow:
 						if(selected!=6)
-						selected++;
+							selected++;
 						break;
 					case ConsoleKey.UpArrow:
 						if(selected!=3)
-						selected--;
+							selected--;
 						break;
 					case ConsoleKey.Enter:
 						if(selected==6)
@@ -119,20 +128,27 @@ namespace Slide15
 							Console.ReadKey();
 							Console.Clear();
 							{
-								int tmplength = ranking[selected-3].Length;
-								Array.Resize(ref ranking[selected-3],ranking[selected-3].Length+1);
-								ranking[selected-3][tmplength]=stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds;
-								Array.Sort(ranking[selected-3]);
+								int tmplength = Data[selected-3].Length;
+								Array.Resize(ref Data[selected-3],Data[selected-3].Length+1);
+								Data[selected-3][tmplength]=new Data();
+								Data[selected-3][tmplength].data=stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds;
+								Data[selected-3][tmplength].name=PlayerName;
+								Array.Sort(Data[selected-3]);
 								Console.SetCursorPosition(Console.WindowWidth/2-5,Console.WindowHeight/2-7);
 								Console.Write("現在のタイム: {0}秒",stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds);
 							}
 						}
-						for(int i=0;i<ranking[selected-3].Length-1 || i<5;i++)
+						for(int i=0;i<Data[selected-3].Length-1 || i<5;i++)
 						{
-							if(0<=i && i<= ranking[selected-3].Length-1)
+							if(0<=i && i<= Data[selected-3].Length-1)
 							{
 								Console.SetCursorPosition(Console.WindowWidth/2-5,Console.WindowHeight/2-5+2*i);
-								Console.Write("{0}位: {1}秒 ({2})",i+1,ranking[selected-3][i],PlayerName);
+								Console.Write("{0}位: {1}秒 ({2})",i+1,Data[selected-3][i].data,Data[selected-3][i].name);
+								using (var streamWriter = new StreamWriter("Data", false, Encoding.UTF8))
+								{
+									var xmlSerializer1 = new XmlSerializer(typeof(Data[][]));
+									xmlSerializer1.Serialize(streamWriter, Data);
+								}
 							}
 						}
 						stopwatch.Reset();
@@ -145,6 +161,25 @@ namespace Slide15
 			string title = Console.Title;
 			Console.Title = "";
 			Console.Clear();
+			try{
+				var xmlSerializer2 = new XmlSerializer(typeof(Data[][]));
+				var xmlSettings = new System.Xml.XmlReaderSettings()
+				{
+					CheckCharacters = false, // （2）
+				};
+				using (var streamReader = new StreamReader("Data", Encoding.UTF8))
+					using (var xmlReader
+							= System.Xml.XmlReader.Create(streamReader, xmlSettings))
+					{
+						Data = (Data[][])xmlSerializer2.Deserialize(xmlReader); // （3）
+					}
+			}catch{
+				Data=new Data[3][]{
+					new Data[0],
+					new Data[0],
+					new Data[0]
+				};
+			}
 			Console.WriteLine("ランキングに使うので、名前を入力してください。");
 			PlayerName=Console.ReadLine();
 			Console.Clear();
