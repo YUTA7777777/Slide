@@ -13,7 +13,7 @@ namespace Slide15
 		public int CompareTo(object obj)
 		{
 			return this.data.CompareTo(((Data)obj).data);
-			//‚Ü‚½‚ÍAŸ‚Ì‚æ‚¤‚É‚à‚Å‚«‚é
+			//ã¾ãŸã¯ã€æ¬¡ã®ã‚ˆã†ã«ã‚‚ã§ãã‚‹
 			//return this.Price - ((Product)other).Price;
 		}
 	}
@@ -135,7 +135,7 @@ namespace Slide15
 								Data[selected-3][tmplength].name=PlayerName;
 								Array.Sort(Data[selected-3]);
 								Console.SetCursorPosition(Console.WindowWidth/2-5,Console.WindowHeight/2-7);
-								Console.Write("Œ»İ‚Ìƒ^ƒCƒ€: {0}•b",stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds);
+								Console.Write("ç¾åœ¨ã®ã‚¿ã‚¤ãƒ : {0}ç§’",stopwatch.Elapsed.Hours*3600+stopwatch.Elapsed.Minutes*60+stopwatch.Elapsed.Seconds);
 							}
 						}
 						for(int i=0;i<Data[selected-3].Length-1 || i<5;i++)
@@ -143,7 +143,7 @@ namespace Slide15
 							if(0<=i && i<= Data[selected-3].Length-1)
 							{
 								Console.SetCursorPosition(Console.WindowWidth/2-5,Console.WindowHeight/2-5+2*i);
-								Console.Write("{0}ˆÊ: {1}•b ({2})",i+1,Data[selected-3][i].data,Data[selected-3][i].name);
+								Console.Write("{0}ä½: {1}ç§’ ({2})",i+1,Data[selected-3][i].data,Data[selected-3][i].name);
 								using (var streamWriter = new StreamWriter("Data", false, Encoding.UTF8))
 								{
 									var xmlSerializer1 = new XmlSerializer(typeof(Data[][]));
@@ -165,13 +165,13 @@ namespace Slide15
 				var xmlSerializer2 = new XmlSerializer(typeof(Data[][]));
 				var xmlSettings = new System.Xml.XmlReaderSettings()
 				{
-					CheckCharacters = false, // i2j
+					CheckCharacters = false, // ï¼ˆ2ï¼‰
 				};
 				using (var streamReader = new StreamReader("Data", Encoding.UTF8))
 					using (var xmlReader
 							= System.Xml.XmlReader.Create(streamReader, xmlSettings))
 					{
-						Data = (Data[][])xmlSerializer2.Deserialize(xmlReader); // i3j
+						Data = (Data[][])xmlSerializer2.Deserialize(xmlReader); // ï¼ˆ3ï¼‰
 					}
 			}catch{
 				Data=new Data[3][]{
@@ -180,7 +180,7 @@ namespace Slide15
 					new Data[0]
 				};
 			}
-			Console.WriteLine("ƒ‰ƒ“ƒLƒ“ƒO‚Ég‚¤‚Ì‚ÅA–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
+			Console.WriteLine("ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã«ä½¿ã†ã®ã§ã€åå‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
 			PlayerName=Console.ReadLine();
 			Console.Clear();
 			Console.CursorVisible = false;
@@ -202,11 +202,11 @@ namespace Slide15
 			}
 			map[w*h-1]=0;
 			Console.SetCursorPosition(0,h+2);
-			Console.Write("‹ó”’‚ğ–îˆóƒL[‚Å“®‚©‚µ‚ÄA\n");
+			Console.Write("ç©ºç™½ã‚’çŸ¢å°ã‚­ãƒ¼ã§å‹•ã‹ã—ã¦ã€\n");
 			Console.SetCursorPosition(0,h+3);
 			Draw();
 			Console.SetCursorPosition(0,h*2+3);
-			Console.Write("‚ÌŒ`‚É‚µ‚Ä‚­‚¾‚³‚¢B\n\nMenu‚É–ß‚é‚ÍESC‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢B");
+			Console.Write("ã®å½¢ã«ã—ã¦ãã ã•ã„ã€‚\n\nMenuã«æˆ»ã‚‹æ™‚ã¯ESCã‚’æŠ¼ã—ã¦ãã ã•ã„ã€‚");
 			isExit=true;
 			while(isExit)
 			{
@@ -246,41 +246,41 @@ namespace Slide15
 					{
 						case 1:
 							Console.BackgroundColor=ConsoleColor.Cyan;
-							Console.Write("‚P");
+							Console.Write("ï¼‘");
 							break;
 						case 2:
 							Console.BackgroundColor=ConsoleColor.Blue;
-							Console.Write("‚Q");
+							Console.Write("ï¼’");
 							break;
 						case 3:
 							Console.BackgroundColor=ConsoleColor.Magenta;
-							Console.Write("‚R");
+							Console.Write("ï¼“");
 							break;
 						case 4:
 							Console.BackgroundColor=ConsoleColor.Gray;
 							Console.ForegroundColor=ConsoleColor.Black;
-							Console.Write("‚S");
+							Console.Write("ï¼”");
 							break;
 						case 5:
 							Console.BackgroundColor=ConsoleColor.DarkYellow;
-							Console.Write("‚T");
+							Console.Write("ï¼•");
 							break;
 						case 6:
 							Console.BackgroundColor=ConsoleColor.Blue;
-							Console.Write("‚U");
+							Console.Write("ï¼–");
 							break;
 						case 7:
 							Console.BackgroundColor=ConsoleColor.Red;
-							Console.Write("‚V");
+							Console.Write("ï¼—");
 							break;
 						case 8:
 							Console.BackgroundColor=ConsoleColor.DarkYellow;
-							Console.Write("‚W");
+							Console.Write("ï¼˜");
 							break;
 						case 9:
 							Console.BackgroundColor=ConsoleColor.Gray;
 							Console.ForegroundColor=ConsoleColor.Black;
-							Console.Write("‚X");
+							Console.Write("ï¼™");
 							break;
 						case 10:
 							Console.BackgroundColor=ConsoleColor.Magenta;
@@ -349,7 +349,7 @@ namespace Slide15
 							break;
 						case 0:
 							Console.BackgroundColor=ConsoleColor.Black;
-							Console.Write("@");
+							Console.Write("ã€€");
 							Console.ResetColor();
 							break;
 					}
@@ -383,7 +383,7 @@ namespace Slide15
 						Draw();
 					}
 					break;
-				case 3://ª
+				case 3://â†‘
 					if(y<(h-1))
 					{
 						map[w*y+x]=map[w*y+x+w];
@@ -393,7 +393,7 @@ namespace Slide15
 						Draw();
 					}
 					break;
-				case 4://«
+				case 4://â†“
 					if(y>0)
 					{
 						map[w*y+x]=map[w*y+x-w];
