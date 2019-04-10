@@ -13,8 +13,6 @@ namespace Slide15
 		public int CompareTo(object obj)
 		{
 			return this.data.CompareTo(((Data)obj).data);
-			//または、次のようにもできる
-			//return this.Price - ((Product)other).Price;
 		}
 	}
 	public class Slide15
